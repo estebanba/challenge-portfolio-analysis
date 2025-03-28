@@ -5,6 +5,9 @@ import plotly_express as px
 
 import plotly.graph_objects as go
 
+# Import the footer function from the footer module
+from components.footer import footer
+
 @st.cache_data
 
 def load_data(path):
@@ -315,3 +318,19 @@ with tab3:
     )
 
     st.plotly_chart(fig, use_container_width=True)
+
+# Call the footer function at the end
+try:
+    footer()
+except Exception as e:
+    st.write("Note: Custom footer could not be loaded.")
+    st.error(f"Footer error: {e}")
+    # Fallback footer
+    st.markdown(
+        """
+        <div style="position: fixed; bottom: 0; width: 100%; text-align: center; padding: 10px; background-color: #f8f9fa;">
+            Portfolio Analysis Dashboard | Created using Streamlit
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
