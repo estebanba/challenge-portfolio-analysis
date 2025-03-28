@@ -1,11 +1,8 @@
 import streamlit as st
 import pandas as pd
-
 import plotly_express as px
-
 import plotly.graph_objects as go
 
-# Import the footer function from the footer module
 from components.footer import footer
 
 @st.cache_data
@@ -16,7 +13,6 @@ def load_data(path):
 
 
 st.set_page_config(page_title="Tech-Challenge: Portfolio Analysis")
-
 
 st.markdown(
     """
@@ -33,7 +29,7 @@ st.markdown(
 )
 
 df_asset_price = load_data("./data/clean/asset_price_data.csv")
-# df_asset_price = df_asset_price.drop(columns=["Unnamed: 0"])
+
 assets_list = list(df_asset_price.drop(columns=["date"]))
 
 df_portfolio_weights = load_data("./data/raw/portfolio_weights.csv")
@@ -41,24 +37,15 @@ df_portfolio_weights = load_data("./data/raw/portfolio_weights.csv")
 # -----------------------------------------------
 
 st.title("Portfolio Analysis")
-# st.subheader("The Book Recommendation System")
 
-sections = ["Data Loading and Price Charting", "Daily Percentage Returns", "Portfolio Analysis"]
+sections = ["Data Loading and Price Charting", "Daily Percentage Returns", "Portfolio Analysis", "Readme"]
 
-tab1, tab2, tab3 = st.tabs(sections)
+tab1, tab2, tab3, tab4 = st.tabs(sections)
 
 with tab1:
     st.header(f"Exercise 1: {sections[0]}")
     st.dataframe(df_asset_price, use_container_width=True)
-    # st.write("This dashboard visualizes the Iris dataset with interactive charts and tables.")
-    # st.write("### 📊 Data Overview")
-    # st.write(df.describe())
-    # st.metric("Total Samples", df.shape[0])
-    # st.metric("Total Features", df.shape[1] - 1)
-    # Get a recommendation for a random book
-
-    # title_list = list(df_books["title"])
-
+   
     df_unpivot = pd.melt(
     df_asset_price, 
     id_vars=['date'], 
@@ -86,24 +73,7 @@ with tab1:
         legend_title='Assets'
     )
 
-    # fig.show()
     st.plotly_chart(fig, use_container_width=True)
-
-    # book_name = st.selectbox(
-    # "Select a book from the list to get similar titles",
-    # title_list,
-    # index=None,
-    # placeholder="Click here to see the books...",
-    # )
-
-    # st.write(book_name)
-
-    # if book_name != None:
-
-    #     # book_name = "Peter Pan"	  # Choose an index
-    #     df_recommend = recommend_similar_book(book_name, df_books_cluster)
-
-    #     st.dataframe(df_recommend[["title", "author", "first_publish_year", "rating"]])
 
 with tab2:
     st.header(f"Exercise 2: {sections[1]}")
@@ -134,7 +104,6 @@ with tab2:
         title='Daily Percentage Returns by Asset'
     )
 
-    
     st.plotly_chart(fig, use_container_width=True)
 
     st.subheader("Summary Statistics for Daily Returns")
@@ -292,7 +261,6 @@ with tab3:
 
     # ---------
 
-
     # Calculate weights by family
     weights_by_family = df_portfolio_weights.set_index('date').copy()
     weights_by_family['Fixed Income'] = weights_by_family['Asset1'] + weights_by_family['Asset2']
@@ -334,3 +302,17 @@ except Exception as e:
         """,
         unsafe_allow_html=True
     )
+with tab4:
+   # Custom CSS to ensure left alignment
+    st.markdown("""
+    <style>
+    .stMarkdown {
+        text-align: left;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # Read and display markdown file from the root folder
+    with open("README.md", "r") as file:
+        content = file.read()
+        st.markdown(content)

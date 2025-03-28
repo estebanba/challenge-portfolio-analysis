@@ -12,7 +12,6 @@ def image(src_as_string, **style):
 def link(link, text, **style):
     return a(_href=link, _target="_blank", style=styles(**style))(text)
 
-
 def layout(*args):
 
     style = """
@@ -29,19 +28,10 @@ def layout(*args):
         bottom=0,
         margin=px(0, 0, 0, 0),
         width=percent(100),
-        # color="black",
         text_align="center",
         height="auto",
         opacity=1,
     )
-
-    # style_hr = styles(
-    #     # display="block",
-    #     margin=px(8, 8, "auto", "auto"),
-    #     # border_style="inset",
-    #     # border_width=px(2)
-    #     border=0
-    # )
 
     body = p()
     foot = div(
@@ -83,7 +73,3 @@ def footer():
         # link("https://buymeacoffee.com/chrischross", image('https://i.imgur.com/thJhzOO.png')),
     ]
     layout(*myargs)
-
-
-# if __name__ == "__main__":
-#     footer()
