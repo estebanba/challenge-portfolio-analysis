@@ -28,7 +28,7 @@ st.markdown(
 )
 
 df_asset_price = load_data("./data/clean/asset_price_data.csv")
-df_asset_price.drop(columns=["Unnamed: 0"], inplace=True)
+# df_asset_price = df_asset_price.drop(columns=["Unnamed: 0"])
 assets_list = list(df_asset_price.drop(columns=["date"]))
 
 df_portfolio_weights = load_data("./data/raw/portfolio_weights.csv")
