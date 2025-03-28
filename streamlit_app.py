@@ -40,6 +40,7 @@ st.title("Portfolio Analysis")
 
 sections = ["Data Loading and Price Charting", "Daily Percentage Returns", "Portfolio Analysis", "Readme"]
 
+
 tab1, tab2, tab3, tab4 = st.tabs(sections)
 
 with tab1:
