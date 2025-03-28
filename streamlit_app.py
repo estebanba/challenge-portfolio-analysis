@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+# import plotly.express as px
+import plotly_express as px
+
 import plotly.graph_objects as go
 
 @st.cache_data
@@ -109,11 +111,7 @@ with tab2:
         returns_df[f'{asset}_return'] = df_asset_price[asset].pct_change() * 100
 
     st.dataframe(returns_df, use_container_width=True)
-    # chart_type = st.radio("Select Chart Type", ["Scatter Plot", "Box Plot"])
-
-
-    # fig = px.scatter(df_books_cluster, x="first_publish_year", y="rating", title="Rating level through the years")
-    # st.plotly_chart(fig, use_container_width=True)
+    
     
     returns_df_unpivot = pd.melt(
     returns_df, 
@@ -133,7 +131,7 @@ with tab2:
         title='Daily Percentage Returns by Asset'
     )
 
-    # fig = px.scatter(df_books_cluster, x="first_publish_year", y="rating", color="cluster", title="Rating level through the years (in clusters)")
+    
     st.plotly_chart(fig, use_container_width=True)
 
     st.subheader("Summary Statistics for Daily Returns")
@@ -141,20 +139,7 @@ with tab2:
     summary_stats = returns_df[[f'{asset}_return' for asset in assets_list]].describe()
    
     st.dataframe(summary_stats, use_container_width=True)
-    # st.header("Metrics")
-
-    # st.subheader(f"Silhouette Score: {silhouette_avg:.3f}")
-
-    # st.subheader("Optimal number of clusters: Elbow method")
-    # fig = go.Figure()
-    # fig.add_trace(go.Scatter(x=list(range_of_clusters), y=inertias, mode='lines+markers', name='Inertia'))
-    # fig.update_layout(title='Elbow Method For Optimal k',
-    #                 xaxis_title='Number of clusters, k',
-    #                 yaxis_title='Inertia',
-    #                 xaxis=dict(tickmode='array', tickvals=list(range_of_clusters)))
-    # st.plotly_chart(fig, use_container_width=True)
-
-    # st.subheader(f"Knee method optimal clusters: {optimal_clusters}")
+   
     st.subheader("Correlation Matrix of Daily Returns")
     corr_matrix = returns_df[[f'{asset}_return' for asset in assets_list]].corr()
 
@@ -196,9 +181,6 @@ with tab2:
 
     st.subheader("Scatter Plot between the Returns of Two Assets")
 
-    # asset_x = 'Asset1'
-    # asset_y = 'Asset2'
-
     asset_x = st.selectbox(
     "Select the first Asset",
     assets_list,
@@ -234,6 +216,8 @@ with tab2:
 
 with tab3:
     st.header(f"Exercise 3: {sections[2]}")
+
+    st.subheader("Portfolio Weights")
     st.dataframe(df_portfolio_weights, use_container_width=True)
 
     fig = px.area(
@@ -305,14 +289,6 @@ with tab3:
 
     # ---------
 
-    # Create family mapping
-    family_mapping = {
-        'Asset1': 'Fixed Income',
-        'Asset2': 'Fixed Income',
-        'Asset3': 'Equity',
-        'Asset4': 'Equity',
-        'Asset5': 'Alternative'
-    }
 
     # Calculate weights by family
     weights_by_family = df_portfolio_weights.set_index('date').copy()
